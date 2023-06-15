@@ -8,13 +8,10 @@ mod color;
 mod ray;
 mod hittable;
 mod sphere;
-//image
+
+
 const ASPECT_RATIO: f32 = 16.0 / 9.0;
 const IMAGE_WIDTH: i32 = 400;
-//const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f32).div(ASPECT_RATIO);
-//const MULT: f64 = 255.999;
-
-//camera
 
 fn main() {
     //image
@@ -30,37 +27,14 @@ fn main() {
     let lower_left_corner = origin.sub(horizontal.div(2.0)).sub(vertical.div(2.0)).sub(focal);
 
     println!("P3\n{IMAGE_WIDTH} {image_height}\n255");
-
-    // for (int j = image_height-1; j >= 0; --j) {
-    //     for (int i = 0; i < image_width; ++i) {
-    // let mut i = 0;
-    // let mut j = (IMAGE_HEIGHT as i32).sub(1);
-    
-    // for j in ((image_height as i32).sub(1)..0).rev(){
-    //     if j >= 0{break}
-    //     println!("j: {j}");
-    //     for i in 0..{
-    //         if i < IMAGE_WIDTH{break}
-    //         println!{"i: {i}"};
-    //         // let u = (i as f32).div(IMAGE_WIDTH.sub(1) as f32);
-    //         // let v = (j as f32).div((image_height as i32).sub(1) as f32);
-    //         // let d = lower_left_corner.add(horizontal.mul(u)).add(vertical.mul(v)).sub(origin);
-    //         // let ray = Ray{orig:origin,dir:d};
-    //         // let color = ray.ray_color();
-    //         // Vec3::write_color(color);
-    //     }
-    // }
-
-
     for j in (0..(image_height as i32)).rev(){
-        //j-=1;
-        //println!("j:{j}");
+
         for i in 0..IMAGE_WIDTH{
-            //let _ = i+1;
+
             if i >= IMAGE_WIDTH{
                 break;
             }
-            //println!("i: {i}");
+
             let u = (i as f32).div(IMAGE_WIDTH.sub(1) as f32);
             let v = (j as f32).div((image_height as i32).sub(1) as f32);
             let d = lower_left_corner.add(horizontal.mul(u)).add(vertical.mul(v)).sub(origin);

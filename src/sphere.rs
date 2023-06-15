@@ -43,8 +43,4 @@ impl Hittable for Sphere{
     }
 }
 
-#[cfg(test)]
-mod tests{
-    use super::*;
-    
-}
+
