@@ -1,5 +1,5 @@
 use crate::{vec3::Vec3};
-use std::ops::{Add, Mul, Sub, Div};
+use std::ops::{Add, Mul, Sub};
 
 pub trait At {
     fn at(self: &Self,t: f32)->Vec3;
@@ -54,15 +54,15 @@ impl Default for Ray{
 
 pub fn hit_sphere(center: Vec3, radius: f32, r: &Ray)->f32{
     let oc: Vec3 = r.origin().sub(center);
-    let a: f32 = r.direction().dot(r.direction());
-    let b: f32 = r.direction().dot(oc).mul(2.0);
-    let c: f32 = oc.dot(oc).sub(radius.mul(radius));
-    let discriminant: f32 = (b.mul(b)).sub(4.0.mul(a).mul(c));
+    let a: f32 = r.direction().length_squared();
+    let half_b: f32 = r.direction().dot(oc);
+    let c: f32 = oc.length_squared().sub(radius*radius);
+    let discriminant: f32 = (half_b*half_b).sub(a*c);
     if discriminant < 0.0{
         return -1.0
     }else {
         //return (-b.sub(discriminant.sqrt())).div((2.0).mul(a))
-        return (-b.sub(discriminant.sqrt())).div((2.0)*a)
+        return (-half_b.sub(discriminant.sqrt()))/a
     }
 }
 

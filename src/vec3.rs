@@ -1,6 +1,6 @@
 use std::ops::{Add, Mul, Div, AddAssign, MulAssign, DivAssign, Neg, Sub};
 
-#[derive(Copy,Clone)]
+#[derive(Copy,Clone,Debug)]
 pub struct Vec3{
     pub e : [f32;3],
 }
@@ -38,15 +38,15 @@ impl Vec3{
         self.e[0].mul(rhs.e[0]).add(self.e[1].mul(rhs.e[1])).add(self.e[2].mul(rhs.e[2]))
     }
 
-    pub fn cross(self,rhs: Self)-> Vec3{
-        Vec3 { 
-            e: [
-                self.e[1].mul(rhs.e[2]).sub(self.e[2].mul(rhs.e[1])),
-                self.e[2].mul(rhs.e[0]).sub(self.e[0].mul(rhs.e[2])),
-                self.e[0].mul(rhs.e[1]).sub(self.e[1].mul(rhs.e[0]))   
-                ] 
-        }
-    }
+    // pub fn cross(self,rhs: Self)-> Vec3{
+    //     Vec3 { 
+    //         e: [
+    //             self.e[1].mul(rhs.e[2]).sub(self.e[2].mul(rhs.e[1])),
+    //             self.e[2].mul(rhs.e[0]).sub(self.e[0].mul(rhs.e[2])),
+    //             self.e[0].mul(rhs.e[1]).sub(self.e[1].mul(rhs.e[0]))   
+    //             ] 
+    //     }
+    // }
     
 }
 impl Default for Vec3{
@@ -163,5 +163,25 @@ impl DivAssign<f32> for Vec3{
 impl ToString for Vec3{
     fn to_string(&self) -> String {
         String::from("{self.e[0]} {self.e[1]} {self.e[2]}")
+    }
+}
+
+impl PartialEq for Vec3{
+    fn eq(&self, other: &Self) -> bool {
+        (self.e[0].eq(&other.e[0])) && ((self.e[1].eq(&other.e[1])) ) && ((self.e[2].eq(&other.e[2])) )
+    }
+}
+
+#[cfg(test)]
+mod tests{
+    use super::*;
+    const EMPTY: Vec3 = Vec3{e:[0.0,0.0,0.0]};
+    const ONES: Vec3 = Vec3{e:[1.0,1.0,1.0]};
+    const HALVES: Vec3 = Vec3{e:[0.5,0.5,0.5]};
+    #[test]
+    fn test_add(){
+        let ans = Vec3{e:[1.0,1.0,1.0]};
+        assert_eq!(EMPTY.add(ans),ans);
+        assert_eq!(HALVES.add(HALVES),ONES);
     }
 }
