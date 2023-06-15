@@ -160,12 +160,6 @@ impl DivAssign<f32> for Vec3{
     }
 }
 
-impl ToString for Vec3{
-    fn to_string(&self) -> String {
-        String::from("{self.e[0]} {self.e[1]} {self.e[2]}")
-    }
-}
-
 impl PartialEq for Vec3{
     fn eq(&self, other: &Self) -> bool {
         (self.e[0].eq(&other.e[0])) && ((self.e[1].eq(&other.e[1])) ) && ((self.e[2].eq(&other.e[2])) )
@@ -210,5 +204,39 @@ mod tests{
         aaa*=0.5;
         assert_eq!(aaa,ans);
     }
+
+
+    #[test]
+    fn test_sub(){
+        assert_eq!(ONES-HALVES,HALVES);
+    }
+
+    #[test]
+    fn test_div(){
+        assert_eq!(ONES/0.5,ONES*2.0);
+    }
+
+    #[test]
+    fn test_neg(){
+        let ans: Vec3 = Vec3{e:[-1.0,-1.0,-1.0]};
+
+        assert_eq!(-ONES, ans);
+    }
+
+    #[test]
+    fn test_div_assign(){
+        let mut aaa = Vec3{e:[1.0,1.0,1.0]};
+        aaa.div_assign(0.5);
+        assert_eq!(aaa,ONES*2.0);
+    }
+    #[test]
+    fn test_partial_eq(){
+        assert_eq!(HALVES==HALVES, true);
+        assert_eq!(HALVES!=ONES, true);
+    }
+
+
+
+
 
 }
