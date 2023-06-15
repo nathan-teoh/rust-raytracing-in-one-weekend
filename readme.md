@@ -5,3 +5,7 @@ I am going through [Ray Tracing in One Weekend](https://raytracing.github.io/boo
 # why
 
 I don't know 
+
+# how do i view the photos
+
+I use [this website](https://kylepaulsen.com/stuff/NetpbmViewer/)
