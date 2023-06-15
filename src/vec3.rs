@@ -184,4 +184,31 @@ mod tests{
         assert_eq!(EMPTY.add(ans),ans);
         assert_eq!(HALVES.add(HALVES),ONES);
     }
+    #[test]
+    fn test_add_assign(){
+        let mut aaa = ONES;
+        aaa+=aaa;
+        let ans= Vec3{e:[2.0,2.0,2.0]};
+        assert_eq!(aaa,ans);
+    }
+
+    #[test]
+    fn test_mul_f32(){
+        let ans = Vec3{e:[6.0,6.0,6.0]};
+        assert_eq!(ONES.mul(6.0),ans);
+    }
+
+    #[test]
+    fn test_mul(){
+        assert_eq!(ONES.mul(HALVES),HALVES);
+    }
+
+    #[test]
+    fn test_mul_assign(){
+        let ans = Vec3{e:[0.25,0.25,0.25]};
+        let mut aaa = HALVES;
+        aaa*=0.5;
+        assert_eq!(aaa,ans);
+    }
+
 }
