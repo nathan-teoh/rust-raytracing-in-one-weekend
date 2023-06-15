@@ -20,7 +20,7 @@ impl At for Ray{
 
 impl Ray{
     pub fn origin(&self)-> Vec3{
-        self.dir
+        self.orig
     }
 
     pub fn direction(&self)->Vec3{
@@ -66,3 +66,28 @@ pub fn hit_sphere(center: Vec3, radius: f32, r: &Ray)->f32{
     }
 }
 
+#[cfg(test)]
+mod tests{
+    use super::*;
+    const ORIG: Vec3 = Vec3{e:[0.0,0.0,0.0]};
+    const DIR: Vec3 = Vec3{e: [0.0,1.0,0.0]};
+    const RAY: Ray = Ray{dir: DIR, orig: ORIG};
+    #[test]
+    pub fn test_at(){
+        let t: f32 = 2.5;
+        let ans = Vec3{e:[0.0,2.5,0.0]};
+        assert_eq!(RAY.at(t),ans);
+    }
+
+    #[test]
+    pub fn test_get_dir(){
+        assert_eq!(RAY.direction(),DIR);
+    }
+
+    #[test]
+    pub fn test_get_orig(){
+        assert_eq!(RAY.origin(),ORIG);
+    }
+
+
+}
