@@ -13,7 +13,7 @@ mod sphere;
 mod utils;
 mod camera;
 const ASPECT_RATIO: f32 = 16.0 / 9.0;
-const IMAGE_WIDTH: i32 = 800;
+const IMAGE_WIDTH: i32 = 400;
 
 fn main() {
     //image
@@ -21,12 +21,12 @@ fn main() {
     let viewport_height: f32 = 2.0;
     let viewport_width: f32 = ASPECT_RATIO.mul(viewport_height);
     let focal_length: f32 = 1.0;
-    let samples = 100;
+    let samples = 50;
     let origin = Vec3::default();
     let horizontal = Vec3{e:[viewport_width,0.0,0.0]};
     let vertical = Vec3{e:[0.0,viewport_height,0.0]};
     let focal = Vec3{e:[0.0,0.0,focal_length]};
-    let max_depth: i32 = 50;
+    let max_depth: i32 = 20;
     let lower_left_corner = origin.sub(horizontal.div(2.0)).sub(vertical.div(2.0)).sub(focal);
     
     let mut world: HittableList = HittableList::default(); 
