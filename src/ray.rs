@@ -1,4 +1,4 @@
-use crate::{vec3::Vec3};
+use crate::{vec3::Vec3, hittable::{Hittable, HitRecord, HittableList}, utils::{self, INFTY}, color};
 use std::ops::{Add, Mul, Sub};
 
 pub trait At {
@@ -7,6 +7,7 @@ pub trait At {
 // pub trait ray_color{
 //     fn ray_color(self: &Self)->Vec3;
 // }
+#[derive(Clone,Copy)]
 pub struct Ray{
     pub dir: Vec3,
     pub orig: Vec3,
@@ -17,6 +18,7 @@ impl At for Ray{
         self.orig.add(self.dir.mul(t))
     }
 }
+
 
 impl Ray{
     pub fn origin(&self)-> Vec3{
@@ -31,15 +33,14 @@ impl Ray{
     //     Ray { dir: direction.clone(), orig: origin.clone() }
     // }
 
-    pub fn ray_color(&self)-> Vec3{
-        let t: f32 = hit_sphere(Vec3{e:[0.0,0.0,-1.0]}, 0.5, self);
-        if t > 0.0 {
-            let n: Vec3 = self.at(t).sub(Vec3{e:[0.0,0.0,-1.0]}).unit_vector();
-            return Vec3{e:[
-                n.x().add(1.0).mul(0.5),
-                n.y().add(1.0).mul(0.5),
-                n.z().add(1.0).mul(0.5)
-            ]}
+    pub fn ray_color(&self, world: &HittableList, depth :i32)-> Vec3{
+        if depth <= 0 {
+            return Vec3::default()
+        }
+        if let Some(hit) = world.hit(self.clone(), 0.001, INFTY){
+            let target = hit.p.add(hit.normal).add(Vec3::random_unit_vector());
+            let r = Ray{orig: hit.p, dir: target.sub(hit.p)};
+            return r.ray_color(world, depth-1).mul(0.5)
         }
         let unit_direction: Vec3 = Vec3::unit_vector(self.dir);
         let t: f32 = (0.5 as f32).mul(unit_direction.y().add(1.0 as f32));

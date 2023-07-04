@@ -2,8 +2,8 @@ use std::{ops::{Sub, Div}};
 
 use crate::{hittable::{Hittable, HitRecord}, vec3::Vec3, ray::At};
 pub struct Sphere{
-    center: Vec3,
-    radius: f32,
+    pub center: Vec3,
+    pub radius: f32,
 }
 
 impl Default for Sphere{
@@ -14,32 +14,23 @@ impl Default for Sphere{
 
 
 impl Hittable for Sphere{
-    fn hit(self,r: &crate::ray::Ray, t_min: f32,t_max: f32, mut rec: HitRecord)-> bool {
+    fn hit(self: &Sphere,r: crate::ray::Ray, t_min: f32,t_max: f32)-> Option<HitRecord> {
         let oc = r.origin()-self.center;
-        let a = r.direction().length_squared();
+        let a = r.direction().dot(r.direction());
         let half_b = oc.dot(r.direction());
         let c = oc.length_squared().sub(self.radius*self.radius);
-        let discriminant = (half_b*half_b).sub(a*c);
-        if discriminant < 0.0{
-            return false
-        }
-        let sqrtd = discriminant.sqrt();
+        let discriminant = half_b.powi(2) - a * c;
 
-        let mut root = (-half_b.sub(sqrtd)).div(a*c);
-        if (root < t_min) || (t_max < root){
-            root = (-half_b + sqrtd).div(a);
-            if(root < t_min) || t_max < root{
-                return false;
+        if discriminant > 0.0 {
+            let sqrt_discriminant = discriminant.sqrt();
+            let rt: f32 = (-half_b - sqrt_discriminant) / a;
+            if rt < t_max && rt > t_min {
+                let p = r.at(rt);
+                let n = (p - self.center) / self.radius;
+                return Some(HitRecord { p: p, normal: n, t: rt, front_face: false })
             }
         }
-
-        rec.t = root;
-        rec.p = r.at(rec.t);
-        let outward_normal = (rec.p - self.center) / self.radius;
-        rec.set_face_normal(r, outward_normal);
-
-        true
-
+        None
     }
 }
 

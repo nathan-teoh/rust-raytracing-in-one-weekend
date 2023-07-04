@@ -1,5 +1,7 @@
 use std::ops::{Add, Mul, Div, AddAssign, MulAssign, DivAssign, Neg, Sub};
 
+use rand::Rng;
+
 #[derive(Copy,Clone,Debug)]
 pub struct Vec3{
     pub e : [f32;3],
@@ -38,6 +40,31 @@ impl Vec3{
         self.e[0].mul(rhs.e[0]).add(self.e[1].mul(rhs.e[1])).add(self.e[2].mul(rhs.e[2]))
     }
 
+    pub fn random() -> Vec3{
+        let mut rng = rand::thread_rng();
+        Vec3 { e: [rng.gen::<f32>(),rng.gen::<f32>(),rng.gen::<f32>()] }
+    }
+
+    pub fn random_unit_vector() -> Vec3{
+        Self::unit_vector(Self::random_in_unit_sphere())
+    }
+
+    pub fn randommm(min: f32, max: f32)-> Vec3{
+        let mut rng = rand::thread_rng();
+        Vec3 { e: [rng.gen_range(min..max),rng.gen_range(min..max),rng.gen_range(min..max)] }
+    }
+
+    pub fn random_in_unit_sphere() -> Vec3{
+        loop{
+            let p = Vec3::randommm(-1.0,1.0);
+            if p.length_squared() >= 1.0 {
+                continue;
+            }else{
+                return p
+            }
+
+        }
+    }
     // pub fn cross(self,rhs: Self)-> Vec3{
     //     Vec3 { 
     //         e: [
