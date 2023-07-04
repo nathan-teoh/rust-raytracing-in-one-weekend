@@ -41,12 +41,6 @@ fn main() {
             if i >= IMAGE_WIDTH{
                 break;
             }
-            // let u = (i as f32).div(IMAGE_WIDTH.sub(1) as f32);
-            // let v = (j as f32).div((image_height as i32).sub(1) as f32);
-            // let d = lower_left_corner.add(horizontal.mul(u)).add(vertical.mul(v)).sub(origin);
-            // let ray = Ray{orig:origin,dir:d};
-            // let color = ray.ray_color(&world);
-            // Vec3::write_color(color,samples);
             let mut color = Vec3::default();
             for k in (0..samples){
                 let mut rng = rand::thread_rng();
